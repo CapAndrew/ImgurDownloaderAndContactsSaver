@@ -1,10 +1,10 @@
-package com.example.imgurdownloaderandcontactssaver
+package com.example.imgurdownloaderandcontactssaver.contactsSaver
 
-import android.content.Context
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.example.imgurdownloaderandcontactssaver.R
 
 class ContactAdapter() :     RecyclerView.Adapter<ContactViewHolder>() {
 
@@ -23,7 +23,9 @@ class ContactAdapter() :     RecyclerView.Adapter<ContactViewHolder>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
         val v: View = LayoutInflater.from(parent.context).inflate(R.layout.contact_item, parent, false)
-        return ContactViewHolder(v)
+        return ContactViewHolder(
+            v
+        )
     }
 
     override fun getItemCount(): Int {

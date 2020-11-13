@@ -8,7 +8,8 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.contacts_fragment.*
+import com.example.imgurdownloaderandcontactssaver.imguruploader.ImgurUploaderFragment
+import com.example.imgurdownloaderandcontactssaver.contactsSaver.ContactsSaverFragment
 import kotlinx.android.synthetic.main.main_fragment.*
 import kotlinx.android.synthetic.main.main_fragment.saveContacts
 

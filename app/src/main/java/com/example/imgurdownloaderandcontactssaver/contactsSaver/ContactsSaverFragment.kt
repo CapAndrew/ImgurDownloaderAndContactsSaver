@@ -1,4 +1,4 @@
-package com.example.imgurdownloaderandcontactssaver
+package com.example.imgurdownloaderandcontactssaver.contactsSaver
 
 import android.os.Bundle
 import android.provider.ContactsContract
@@ -7,14 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.imgurdownloaderandcontactssaver.R
 import kotlinx.android.synthetic.main.contacts_fragment.*
 
 class ContactsSaverFragment : Fragment() {
 
     companion object {
-        fun newInstance() = ContactsSaverFragment()
-        private val contactAdapter = ContactAdapter()
+        fun newInstance() =
+            ContactsSaverFragment()
+
+        private val contactAdapter =
+            ContactAdapter()
     }
+
+    lateinit var db: DataBaseHelper
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -30,15 +36,36 @@ class ContactsSaverFragment : Fragment() {
 
         recyclerView.setHasFixedSize(true)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = contactAdapter
+        recyclerView.adapter =
+            contactAdapter
+        db = DataBaseHelper(requireContext())
+        loadContacts.isEnabled = db.dataCount()>0
+        saveContacts.isEnabled = contactAdapter.itemCount > 0
 
         val contactsList: MutableList<ContactItem> = getContacts()
 
         readContacts.setOnClickListener {
             contactAdapter.updateItem(contactsList)
+            saveContacts.isEnabled = contactAdapter.itemCount > 0
         }
+
         clearContacts.setOnClickListener {
             contactAdapter.clearItem()
+            saveContacts.isEnabled = false
+        }
+
+        saveContacts.setOnClickListener {
+            db.deleteData()
+            contactsList.forEach {
+                db.insertData(it)
+            }
+            loadContacts.isEnabled = db.dataCount()>0
+        }
+
+        loadContacts.setOnClickListener {
+            if(db.readData().isNotEmpty()){
+                contactAdapter.updateItem(db.readData())
+            }
         }
 
 
@@ -61,7 +88,12 @@ class ContactsSaverFragment : Fragment() {
                     it.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.DISPLAY_NAME))
                 val phone =
                     it.getString(cursor.getColumnIndex(ContactsContract.CommonDataKinds.Phone.NUMBER))
-                contactsList.add(ContactItem(displayName, phone))
+                contactsList.add(
+                    ContactItem(
+                        displayName,
+                        phone
+                    )
+                )
             }
         } ?: return contactsList
         return contactsList

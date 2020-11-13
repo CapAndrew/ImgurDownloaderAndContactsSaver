@@ -1,8 +1,9 @@
-package com.example.imgurdownloaderandcontactssaver
+package com.example.imgurdownloaderandcontactssaver.contactsSaver
 
 import android.view.View
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
+import com.example.imgurdownloaderandcontactssaver.R
 
 class ContactViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
     private var contactName: TextView = itemView.findViewById(R.id.contact_name)
